@@ -1,6 +1,6 @@
 [tool.setuptools]
     packages = ["etimer"]
-    pachages-dir = {"" = "src"}
+    package-dir = {"" = "src"}
 
 [project]
     name = "etimer"

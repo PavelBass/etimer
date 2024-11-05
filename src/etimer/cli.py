@@ -1,6 +1,6 @@
 import argparse
 
-from etimer import etimer
+from etimer.main import etimer
 
 
 def get_parser() -> int:
