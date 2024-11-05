@@ -1,0 +1,13 @@
+[tool.setuptools]
+    packages = ["etimer"]
+    pachages-dir = {"" = "src"}
+
+[project]
+    name = "etimer"
+    version = "2024.11.5"
+    description = "Консольный таймер"
+    authors = [
+        {name="Pavel Bass", email="basspv@vk.com"},
+    ]
+    readme="README.md"
+    
