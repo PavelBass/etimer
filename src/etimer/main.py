@@ -1,29 +1,34 @@
 import time
-import argparse
+from typing import Final
 
-SLEEP_TIME = 0.1  # seconds
-SAY_SPENT_TIME_PERIOD = 3  # seconds
-
-
-def etimer(seconds: int) -> None:
-    wait_for(seconds=seconds)
+from etimer.shouter import Shouter
+from etimer.timer import TimerRun
 
 
-def wait_for(seconds: int) -> None:
-    print(f'Засекаю {seconds} сек.')
-    print('...')
-    started_at = time.time()
-    last_state_said_at = 0
-    last_message_length = 0
-    while (time_passed := time.time() - started_at) < seconds:
-        if time_passed - last_state_said_at > SAY_SPENT_TIME_PERIOD:
-            if last_message_length:
-                print('\b' * last_message_length, end='')
-                print(' ' * last_message_length, end='')
-                print('\b' * last_message_length, end='', flush=True)
-            message = f'Прошло {int(time.time() - started_at)} сек.'
-            print(message, end='', flush=True)
-            last_state_said_at = time_passed
-            last_message_length = len(message)
-        time.sleep(SLEEP_TIME)
-    print('\nВремя вышло!')
+class ETimer:
+    """Приложение Etimer
+
+    Attributes:
+        SLEEP_TIME: Время между проверками на то, что время вышло, в секундах
+    """
+
+    SLEEP_TIME: Final[float] = 0.1 
+
+
+    def __init__(self, seconds: int) -> None:
+        """Инициализация класса ETimer
+
+        Args:
+            seconds: Количество секунд
+        """
+        self._timer = TimerRun(seconds)
+        self._shouter = Shouter(self._timer)
+
+    def run(self) -> None:
+        """Запуск"""
+        self._shouter.say_about_start()
+        while not self._timer.is_finished:
+            self._shouter.say_about_passed_time_if_time_has_come()
+            time.sleep(self.SLEEP_TIME)
+        self._shouter.say_time_is_over()
+

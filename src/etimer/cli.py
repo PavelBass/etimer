@@ -1,6 +1,6 @@
 import argparse
 
-from etimer.main import etimer
+from etimer.main import ETimer 
 
 
 def get_parser() -> int:
@@ -16,5 +16,6 @@ def get_parser() -> int:
 def main() -> None:
     parser = get_parser()
     arguments = parser.parse_args()
-    etimer(seconds=seconds)
+    etimer = ETimer(seconds=arguments.seconds)
+    etimer.run()
 
